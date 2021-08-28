@@ -1,0 +1,55 @@
+﻿@page "/"
+@using WebApplication4.Data
+@inject WebApplication4.Common.DBAccess DBAccess
+
+<h1>DBからSQLで検索</h1>
+
+<input type="text" @bind="searchtext" />
+<button @onclick="search">検索</button>
+@if (data.Count() == 0)
+{
+    <p>Loadig</p>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Kokyo_cd</th>
+                <th>Yubin_5</th>
+                <th>Yubin_7</th>
+                <th>Todofuke_kana</th>
+                <th>City_kana</th>
+                <th>Tyo_kana</th>
+                <th>Todofuken</th>
+                <th>City</th>
+                <th>Tyo</th>
+            </tr>
+        </thead>
+        @foreach (Data.TableData table in data)
+        {
+            <tr>
+                <td>@table.Kokyo_cd</td>
+                <td>@table.Yubin_5</td>
+                <td>@table.Yubin_7</td>
+                <td>@table.Todofuke_kana</td>
+                <td>@table.City_kana</td>
+                <td>@table.Tyo_kana</td>
+                <td>@table.Todofuken</td>
+                <td>@table.City</td>
+                <td>@table.Tyo</td>
+            </tr>
+        }
+    </table>
+}
+
+
+@code {
+    public string searchtext = "";
+    List<TableData> data = new List<TableData>();
+
+    public void search()
+    {
+        data = DBAccess.SelectTable(searchtext);
+    }
+}
